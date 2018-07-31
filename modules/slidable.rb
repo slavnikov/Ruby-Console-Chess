@@ -1,6 +1,6 @@
 require 'byebug'
 module Slidable
-  def slide
+  def possible_slides
     possible_moves = []
     deltas = self.own_deltas
     deltas.each do |delta|

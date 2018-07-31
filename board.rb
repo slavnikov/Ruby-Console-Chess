@@ -1,6 +1,6 @@
 require_relative 'piece.rb'
 require "colorize"
-require_relative 'knight.rb'
+require_relative 'pieces/king.rb'
 class Board
 
   attr_accessor :grid
@@ -13,9 +13,9 @@ class Board
     8.times do |i|
       8.times do |j|
         if (i + j).even?
-          grid[i][j] = :w
+          grid[i][j] = :white
         else
-          grid[i][j] = :b
+          grid[i][j] = :black
         end
       end
     end
@@ -27,14 +27,14 @@ class Board
     grid.each_with_index do |row, i|
       print " #{i} "
       row.each do |col|
-        if col == :b
-          print "   ".colorize(:background => :black)
-        elsif col == :w
+        if col == :black
+          print "   ".colorize(:background => :grey)
+        elsif col == :white
           print "   ".colorize(:background => :white)
-        elsif col == :y
+        elsif col == :yellow
           print "   ".colorize(:background => :yellow)
-        # else
-        #   print col
+        elsif col.class.superclass == Piece
+          print col
         end
       end
       puts
@@ -79,7 +79,8 @@ end
 
 board = Board.new
 board.fill_colors
-p1 = Knight.new("white",[0,1],board)
-p2 = Piece.new("black", [2,2], board)
-board[[2,2]] = p2
-puts p1.step
+p1 = King.new(:blue,[0,3], board, :grey)
+# p2 = Piece.new("black", [2,2], board)
+# board[[2,2]] = p2
+board[[0,3]] = p1
+board.render
