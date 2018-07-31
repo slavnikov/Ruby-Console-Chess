@@ -10,14 +10,10 @@ class Piece
   end
 
   def move(destination)
-    # debugger if current_pos == [7,0]
     board[current_pos] = pos_color unless current_pos == nil
-    # debugger unless current_pos == nil
     extract_color(destination) #memmorize the position color for next step
     board[destination] = self
-    # debugger
     self.current_pos = destination
-    # debugger
   end
 
   def extract_color(pos)
@@ -35,7 +31,6 @@ class Piece
     }
 
     letter = ranks[self.class]
-    # debugger
     " ".colorize(:background => pos_color) +
     letter.colorize(:color => piece_color, :background => pos_color) +
     " ".colorize(:background => pos_color)

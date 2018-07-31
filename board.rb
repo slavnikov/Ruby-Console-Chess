@@ -25,9 +25,9 @@ class Board
 
   def render
     system("clear")
-    puts "    0  1  2  3  4  5  6  7 "
+    puts "    A  B  C  D  E  F  G  H "
     grid.each_with_index do |row, i|
-      print " #{i} "
+      print " #{8 - i} "
       row.each do |col|
         if col == :grey
           print "   ".colorize(:background => :grey)
@@ -39,8 +39,10 @@ class Board
           print col
         end
       end
+      print " #{8 - i} "
       puts
     end
+    puts "    A  B  C  D  E  F  G  H "
   end
 
   def [](pos)
@@ -61,7 +63,7 @@ class Board
     # if self[start_pos] == nil
     #   raise "This is no piece at that position"
     # end
-    # 
+    #
     # if self[start_pos].can_move?(end_pos)
     #   raise "That piece can not move there"
     # end
@@ -85,6 +87,10 @@ class Board
       ranks[i].new(:red,self).move([0,i])
       ranks[i].new(:blue,self).move([7,7 - i])
     end
+  end
+
+  def legal_move?(from_pos, to_pos)
+    self[from_pos].possible_moves.include?(to_pos)
   end
 end
 

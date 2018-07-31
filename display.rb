@@ -14,9 +14,9 @@ class Display
 
   def render
     system("clear")
-    puts "    0  1  2  3  4  5  6  7 "
+    puts "    A  B  C  D  E  F  G  H "
     board.grid.each_with_index do |row, i|
-      print " #{i} "
+      print " #{8 - i} "
       row.each do |col|
         if col == :grey
           print "   ".colorize(:background => :grey)
@@ -28,8 +28,10 @@ class Display
           print col
         end
       end
+      print " #{8 - i} "
       puts
     end
+    puts "    A  B  C  D  E  F  G  H "
   end
 
   def show_cursor
@@ -38,5 +40,9 @@ class Display
 
   def move_piece(from_pos, to_pos)
     board.move_piece(from_pos, to_pos)
+  end
+
+  def empty_square?(pos)
+    board[pos].class == Symbol
   end
 end
