@@ -50,10 +50,6 @@ class Board
       puts
     end
     puts "    A  B  C  D  E  F  G  H "
-    puts check_on?(:blue)
-    puts check_on?(:red)
-    pieces[:blue].each {|peice| p peice.current_pos if peice.class == Queen}
-    pieces[:red].each {|peice| p peice.current_pos if peice.class == Queen}
   end
 
   def [](pos)

@@ -70,12 +70,12 @@ class Piece
 
   def to_s
     ranks = {
-      King => 'K',
-      Queen => 'Q',
-      Bishop => 'B',
-      Rook => 'R',
-      Pawn => 'P',
-      Knight => 'H'
+      King => "\u265a",
+      Queen => "\u265b",
+      Bishop => "\u265d",
+      Rook => "\u265c",
+      Pawn => "\u265f",
+      Knight => "\u265e"
     }
 
     letter = ranks[self.class]

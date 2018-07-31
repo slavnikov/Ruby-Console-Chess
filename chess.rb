@@ -25,6 +25,10 @@ class Chess
     end
   end
 
+  # def checkmate?
+  #   if current_player.
+  # end
+
   def switch_player
     # debugger
     self.current_player = current_player == player1 ? player2 : player1
