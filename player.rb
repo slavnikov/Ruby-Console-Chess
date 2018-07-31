@@ -41,6 +41,10 @@ class Player
         retry
       end
       display.move_piece(from_pos,to_pos)
+    rescue SelectionError => e
+      puts e.message
+      sleep(1)
+      retry
     end
   rescue DeselectionError => e
     puts e.message
@@ -49,12 +53,7 @@ class Player
   end
 end
 
-class SelectionError < StandardError
 
-end
-
-class DeselectionError < StandardError
-end 
 
 # display = Display.new
 # player = Player.new('bob', display)

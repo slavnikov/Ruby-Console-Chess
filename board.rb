@@ -50,8 +50,10 @@ class Board
       puts
     end
     puts "    A  B  C  D  E  F  G  H "
-    puts check_by?(:blue)
-    puts check_by?(:red)
+    puts check_on?(:blue)
+    puts check_on?(:red)
+    pieces[:blue].each {|peice| p peice.current_pos if peice.class == Queen}
+    pieces[:red].each {|peice| p peice.current_pos if peice.class == Queen}
   end
 
   def [](pos)
@@ -77,20 +79,25 @@ class Board
     pieces[:blue].delete_if {|piece| piece.current_pos == pos}
   end
 
+  def replace(piece, color)
+    opponent_color = color == :blue ? :red : :blue
+    pieces[opponent_color] << piece
+  end
+
   def populate_board
     ranks = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     8.times do |i|
       piece1 = ranks[i].new(:red,self)
-      piece1.move([0,i])
+      piece1.init_move([0,i])
       self.pieces[:red] << piece1
       pawn1 = Pawn.new(:red,self)
-      pawn1.move([1,i])
+      pawn1.init_move([1,i])
       self.pieces[:red] << pawn1
       piece2 = ranks[i].new(:blue,self)
-      piece2.move([7,7 - i])
+      piece2.init_move([7,7 - i])
       self.pieces[:blue] << piece2
       pawn2 = Pawn.new(:blue,self)
-      pawn2.move([6,i])
+      pawn2.init_move([6,i])
       self.pieces[:blue] << pawn2
     end
   end
@@ -99,10 +106,10 @@ class Board
     self[from_pos].possible_moves.include?(to_pos)
   end
 
-  def check_by?(color)
-    king_color = color == :blue ? :red : :blue
-    king_pos = pieces[king_color].find {|piece| piece.class == King}.current_pos
+  def check_on?(color)
+    opponent_color = color == :blue ? :red : :blue
+    king_pos = pieces[color].find {|piece| piece.class == King}.current_pos
 
-    pieces[color].any? {|piece| piece.possible_moves.include?(king_pos)}
+    pieces[opponent_color].any? {|piece| piece.possible_moves.include?(king_pos)}
   end
 end
