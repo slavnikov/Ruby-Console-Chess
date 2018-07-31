@@ -5,10 +5,11 @@ require 'byebug'
 
 class Board
 
-  attr_accessor :grid
+  attr_accessor :grid, :current_player
 
   def initialize
     @grid = Array.new(8) {Array.new(8, nil)}
+    @current_player = nil
   end
 
   def fill_colors
@@ -25,6 +26,7 @@ class Board
 
   def render
     system("clear")
+    puts "It is the #{@current_player.color.to_s.colorize(:color => @current_player.color)} player's turn!"
     puts "    A  B  C  D  E  F  G  H "
     grid.each_with_index do |row, i|
       print " #{8 - i} "

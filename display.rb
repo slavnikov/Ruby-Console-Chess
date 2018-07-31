@@ -45,4 +45,8 @@ class Display
   def empty_square?(pos)
     board[pos].class == Symbol
   end
+
+  def check_color(pos)
+    board[pos].piece_color
+  end
 end
