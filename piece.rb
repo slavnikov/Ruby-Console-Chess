@@ -12,13 +12,21 @@ class Piece
   def move(destination)
     board[current_pos] = pos_color unless current_pos == nil
     extract_color(destination) #memmorize the position color for next step
+    board.delete_at(destination)
     board[destination] = self
     self.current_pos = destination
   end
 
   def extract_color(pos)
-    @pos_color = board[pos]
+    # @pos_color = board[pos]
+    if board[pos].class == Symbol
+      self.pos_color = board[pos]
+    else
+      self.pos_color = board[pos].pos_color
+    end
   end
+
+
 
   def to_s
     ranks = {

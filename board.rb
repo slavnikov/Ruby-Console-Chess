@@ -5,11 +5,15 @@ require 'byebug'
 
 class Board
 
-  attr_accessor :grid, :current_player
+  attr_accessor :grid, :current_player, :pieces
 
   def initialize
     @grid = Array.new(8) {Array.new(8, nil)}
     @current_player = nil
+    @pieces = {
+      blue: [],
+      red: []
+    }
   end
 
   def fill_colors
@@ -26,7 +30,8 @@ class Board
 
   def render
     system("clear")
-    puts "It is the #{@current_player.color.to_s.colorize(:color => @current_player.color)} player's turn!"
+    puts "It is the #{@current_player.color.to_s.upcase.colorize(:color => @current_player.color)} player's turn!"
+    puts
     puts "    A  B  C  D  E  F  G  H "
     grid.each_with_index do |row, i|
       print " #{8 - i} "
@@ -45,6 +50,8 @@ class Board
       puts
     end
     puts "    A  B  C  D  E  F  G  H "
+    puts check_by?(:blue)
+    puts check_by?(:red)
   end
 
   def [](pos)
@@ -58,24 +65,6 @@ class Board
   end
 
   def move_piece(start_pos,end_pos)
-    # unless valid_pos?(start_pos) && valid_pos?(end_pos)
-    #   raise "It is outside the board."
-    # end
-    #
-    # if self[start_pos] == nil
-    #   raise "This is no piece at that position"
-    # end
-    #
-    # if self[start_pos].can_move?(end_pos)
-    #   raise "That piece can not move there"
-    # end
-    #
-    # if @self[end_pos] != nil
-    #   raise 'Can not kill a piece of the same color'
-    # end
-
-    # self[end_pos] = self[start_pos]
-    # self[start_pos] = nil
     self[start_pos].move(end_pos)
   end
 
@@ -83,24 +72,37 @@ class Board
     pos.all? {|el| 0 <= el && 7 >= el}
   end
 
+  def delete_at(pos)
+    pieces[:red].delete_if {|piece| piece.current_pos == pos}
+    pieces[:blue].delete_if {|piece| piece.current_pos == pos}
+  end
+
   def populate_board
     ranks = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     8.times do |i|
-      ranks[i].new(:red,self).move([0,i])
-      Pawn.new(:red,self).move([1,i])
-      ranks[i].new(:blue,self).move([7,7 - i])
-      Pawn.new(:blue,self).move([6,i])
+      piece1 = ranks[i].new(:red,self)
+      piece1.move([0,i])
+      self.pieces[:red] << piece1
+      pawn1 = Pawn.new(:red,self)
+      pawn1.move([1,i])
+      self.pieces[:red] << pawn1
+      piece2 = ranks[i].new(:blue,self)
+      piece2.move([7,7 - i])
+      self.pieces[:blue] << piece2
+      pawn2 = Pawn.new(:blue,self)
+      pawn2.move([6,i])
+      self.pieces[:blue] << pawn2
     end
   end
 
   def legal_move?(from_pos, to_pos)
     self[from_pos].possible_moves.include?(to_pos)
   end
+
+  def check_by?(color)
+    king_color = color == :blue ? :red : :blue
+    king_pos = pieces[king_color].find {|piece| piece.class == King}.current_pos
+
+    pieces[color].any? {|piece| piece.possible_moves.include?(king_pos)}
+  end
 end
-
-
-# p1 = King.new(:blue,[0,3], board, :grey)
-# # p2 = Piece.new("black", [2,2], board)
-# # board[[2,2]] = p2
-# board[[0,3]] = p1
-# board.render
