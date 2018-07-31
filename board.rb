@@ -1,5 +1,6 @@
 require_relative 'piece.rb'
 require "colorize"
+require_relative 'knight.rb'
 class Board
 
   attr_accessor :grid
@@ -78,7 +79,7 @@ end
 
 board = Board.new
 board.fill_colors
-p1 = Piece.new("white",[3,3],board)
-p2 = Piece.new("black", [5,5], board)
-board[[5,5]] = p2
-puts p1.slide 
+p1 = Knight.new("white",[0,1],board)
+p2 = Piece.new("black", [2,2], board)
+board[[2,2]] = p2
+puts p1.step
