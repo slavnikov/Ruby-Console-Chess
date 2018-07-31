@@ -40,7 +40,7 @@ class Cursor
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
-    @prev_color = :w
+    @prev_color = :white
   end
 
   def get_input
@@ -85,20 +85,41 @@ class Cursor
   end
 
   def update_pos(diff)
-    board[cursor_pos] = @prev_color
+    deposit_color #deposit_color on position being left
     new_pos_x = (cursor_pos.first + diff.first) % 8
     new_pos_y = (cursor_pos.last + diff.last) % 8
     self.cursor_pos = [new_pos_x, new_pos_y]
-    extract_color
-    board[cursor_pos] = :y
+    extract_color #extract_color of destination position
+    set_highlight #set_highlight of destination position to :yellow
     get_input
   end
 
   def extract_color
-    @prev_color = board[cursor_pos]
+    if board[cursor_pos].class == Symbol
+      @prev_color = board[cursor_pos]
+    else
+      @prev_color = board[cursor_pos].pos_color
+    end
+  end
+
+  def set_highlight
+    if board[cursor_pos].class == Symbol
+      board[cursor_pos] = :yellow
+    else
+      board[cursor_pos].pos_color = :yellow
+    end
+  end
+
+  def deposit_color
+    if board[cursor_pos].class == Symbol
+      board[cursor_pos] = @prev_color
+    else
+      board[cursor_pos].pos_color = @prev_color
+    end
   end
 end
-# board = Board.new
-# board.fill_colors
-# cursor = Cursor.new([0,0],board)
-# cursor.get_input
+board = Board.new
+board.fill_colors
+board.populate_board
+cursor = Cursor.new([0,0], board)
+cursor.get_input

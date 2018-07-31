@@ -1,8 +1,7 @@
 require 'byebug'
 module Slidable
-  def possible_slides
+  def possible_slides(deltas)
     possible_moves = []
-    deltas = self.own_deltas
     deltas.each do |delta|
       stopped = false
       x = current_pos.first

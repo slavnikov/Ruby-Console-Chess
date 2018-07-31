@@ -1,7 +1,12 @@
-require_relative 'slidable'
+require_relative '../modules/slidable.rb'
+
 class Bishop < Piece
   include Slidable
-  def own_deltas
-    [[1,1], [1, -1], [-1, 1], [-1,-1]]
+
+  DELTAS = [[1,1], [1, -1], [-1, 1], [-1,-1]]
+
+  def possible_moves
+    possible_slides(DELTAS)
   end
+
 end

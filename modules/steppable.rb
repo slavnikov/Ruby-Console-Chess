@@ -2,7 +2,6 @@ require 'byebug'
 module Steppable
   def possible_steps(deltas)
     possible_moves = []
-    # deltas = self.own_deltas
     deltas.each do |delta|
       x = current_pos.first
       y = current_pos.last

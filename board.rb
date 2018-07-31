@@ -1,6 +1,8 @@
-require_relative 'piece.rb'
 require "colorize"
-require_relative 'pieces/king.rb'
+require_relative 'piece.rb'
+require_relative 'require_pieces.rb'
+require 'byebug'
+
 class Board
 
   attr_accessor :grid
@@ -15,7 +17,7 @@ class Board
         if (i + j).even?
           grid[i][j] = :white
         else
-          grid[i][j] = :black
+          grid[i][j] = :grey
         end
       end
     end
@@ -27,7 +29,7 @@ class Board
     grid.each_with_index do |row, i|
       print " #{i} "
       row.each do |col|
-        if col == :black
+        if col == :grey
           print "   ".colorize(:background => :grey)
         elsif col == :white
           print "   ".colorize(:background => :white)
@@ -75,12 +77,19 @@ class Board
   def valid_pos?(pos)
     pos.all? {|el| 0 <= el && 7 >= el}
   end
+
+  def populate_board
+    ranks = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+    8.times do |i|
+      ranks[i].new(:red,self).move([0,i])
+      ranks[i].new(:blue,self).move([7,7 - i])
+    end
+  end
 end
 
-board = Board.new
-board.fill_colors
-p1 = King.new(:blue,[0,3], board, :grey)
-# p2 = Piece.new("black", [2,2], board)
-# board[[2,2]] = p2
-board[[0,3]] = p1
-board.render
+
+# p1 = King.new(:blue,[0,3], board, :grey)
+# # p2 = Piece.new("black", [2,2], board)
+# # board[[2,2]] = p2
+# board[[0,3]] = p1
+# board.render
