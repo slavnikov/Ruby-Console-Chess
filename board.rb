@@ -85,7 +85,9 @@ class Board
     ranks = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     8.times do |i|
       ranks[i].new(:red,self).move([0,i])
+      Pawn.new(:red,self).move([1,i])
       ranks[i].new(:blue,self).move([7,7 - i])
+      Pawn.new(:blue,self).move([6,i])
     end
   end
 
