@@ -10,10 +10,14 @@ class Piece
   end
 
   def move(destination)
+    # debugger if current_pos == [7,0]
     board[current_pos] = pos_color unless current_pos == nil
+    # debugger unless current_pos == nil
     extract_color(destination) #memmorize the position color for next step
     board[destination] = self
-    current_pos = destination
+    # debugger
+    self.current_pos = destination
+    # debugger
   end
 
   def extract_color(pos)

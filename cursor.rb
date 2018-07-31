@@ -81,7 +81,11 @@ class Cursor
   end
 
   def handle_key(key)
-    update_pos(MOVES[key])
+    if MOVES.has_key?(key)
+      update_pos(MOVES[key])
+    elsif key == :space
+      return cursor_pos
+    end
   end
 
   def update_pos(diff)
@@ -118,8 +122,9 @@ class Cursor
     end
   end
 end
-board = Board.new
-board.fill_colors
-board.populate_board
-cursor = Cursor.new([0,0], board)
-cursor.get_input
+
+# board = Board.new
+# board.fill_colors
+# board.populate_board
+# cursor = Cursor.new([0,0], board)
+# cursor.get_input

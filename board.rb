@@ -54,24 +54,25 @@ class Board
   end
 
   def move_piece(start_pos,end_pos)
-    unless valid_pos?(start_pos) && valid_pos?(end_pos)
-      raise "It is outside the board."
-    end
+    # unless valid_pos?(start_pos) && valid_pos?(end_pos)
+    #   raise "It is outside the board."
+    # end
+    #
+    # if self[start_pos] == nil
+    #   raise "This is no piece at that position"
+    # end
+    # 
+    # if self[start_pos].can_move?(end_pos)
+    #   raise "That piece can not move there"
+    # end
+    #
+    # if @self[end_pos] != nil
+    #   raise 'Can not kill a piece of the same color'
+    # end
 
-    if self[start_pos] == nil
-      raise "This is no piece at that position"
-    end
-
-    if self[start_pos].can_move?(end_pos)
-      raise "That piece can not move there"
-    end
-
-    if @self[end_pos] != nil
-      raise 'Can not kill a piece of the same color'
-    end
-
-    self[end_pos] = self[start_pos]
-    self[start_pos] = nil
+    # self[end_pos] = self[start_pos]
+    # self[start_pos] = nil
+    self[start_pos].move(end_pos)
   end
 
   def valid_pos?(pos)
